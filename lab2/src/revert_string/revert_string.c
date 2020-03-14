@@ -2,6 +2,10 @@
 
 void RevertString(char *str)
 {
-	// your code here
+    int i = sizeof (*str)
+    for 0:i
+    {
+        str[i]=str[end-i]
+    }
 }
 
