@@ -7,16 +7,24 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-#define SERV_PORT 10050
-#define BUFSIZE 100
+//#define SERV_PORT 10050
+//#define BUFSIZE 100
 #define SADDR struct sockaddr
 
-int main() {
+int main(int argc, char *argv[]) {
+  if (argc < 3) {
+    printf("Too few arguments \n");
+    exit(1);
+  }
+
+  int SERV_PORT = atoi(argv[1]);
+  int BUFSIZE = atoi(argv[2]);
+
   const size_t kSize = sizeof(struct sockaddr_in);
 
   int lfd, cfd;
   int nread;
-  char buf[BUFSIZE];
+  char* buf = alloca(sizeof(char) * BUFSIZE);
   struct sockaddr_in servaddr;
   struct sockaddr_in cliaddr;
 
@@ -24,6 +32,8 @@ int main() {
     perror("socket");
     exit(1);
   }
+
+  printf("%d\n", lfd);
 
   memset(&servaddr, 0, kSize);
   servaddr.sin_family = AF_INET;
@@ -47,11 +57,15 @@ int main() {
       perror("accept");
       exit(1);
     }
+    printf("accept return %d\n", cfd);
     printf("connection established\n");
 
     while ((nread = read(cfd, buf, BUFSIZE)) > 0) {
-      write(1, &buf, nread);
+      write(1, buf, nread);
+      printf("%d\n", nread);
     }
+
+    printf("read back %d\n", nread);
 
     if (nread == -1) {
       perror("read");
