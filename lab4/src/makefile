@@ -1,8 +1,6 @@
 CC = gcc
 CFLAGS = -I.
 
-
-
 parallel_sum : parallel_sum.o utils.o
 	$(CC) -o parallel_sum parallel_sum.o utils.o $(CFLAGS) -pthread
 

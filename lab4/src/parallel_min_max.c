@@ -180,24 +180,15 @@ int main(int argc, char **argv) {
   signal(SIGALRM, alarm_handler);
   if(timeout > 0)
   {
-    while (active_child_processes > 0)
-    {
-      // your code here
-      alarm(timeout);
-      waitpid(ch_pid[pid_counter], &status, WNOHANG);
-      active_child_processes -= 1;
-      pid_counter++;
-    }
-  }
-  else
-  {
-    while (active_child_processes > 0)
+    alarm(timeout);
+     }   
+     while (active_child_processes > 0)
     {
       // your code here
       wait(&status);
       active_child_processes -= 1;
     }
-  }
+  
 
   struct MinMax *min_max = malloc(sizeof(struct MinMax));
   int min = INT_MAX;
